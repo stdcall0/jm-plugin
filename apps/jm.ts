@@ -20,7 +20,7 @@ export class JMPlugin extends Plugin {
 
     async jmQuery() {
         const jmID: string = (this.e.msg as string).toLowerCase();
-        if (jmID.length != 8 || jmID.startsWith("jm")) return;
+        if (jmID.length != 8 || !jmID.startsWith("jm")) return;
 
         exec(`python plugins/jm-plugin/python/jm.py ${jmID}`, { windowsHide: true },
             async (error, stdout, stderr) => {
