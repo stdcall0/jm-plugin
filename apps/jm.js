@@ -30,7 +30,14 @@ export class JMPlugin extends Plugin {
             }
             else {
                 try {
-                    const inf = JSON.parse(stdout.split('\n').at(-1));
+                    const lines = stdout.split('\n');
+                    let line = lines[0];
+                    for (let i = lines.length - 1; i >= 1; --i)
+                        if (lines[i].trim()) {
+                            line = lines[i];
+                            break;
+                        }
+                    const inf = JSON.parse(line);
                     const msgs = [
                         `标题: ${inf.name}`,
                         `作者: ${inf.author}`,
