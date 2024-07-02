@@ -1,0 +1,21 @@
+{
+   "compilerOptions": {
+      "esModuleInterop": true,
+      "allowJs": true,
+      "lib": [
+         "es2017"
+      ],
+      "target": "es2017",
+      "module": "nodenext",
+      "moduleResolution": "nodenext",
+      "outDir": ".",
+      "rootDir": ".",
+      "baseUrl": ".",
+      "paths": {
+         "#@/*": ["./*"],
+         "#gc": ["./components/index.js"],
+      }
+   },
+   "include": ["**/*"],
+   "exclude": []
+}
