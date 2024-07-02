@@ -19,7 +19,7 @@ export class JMPlugin extends Plugin {
         const jmID = this.e.msg.toLowerCase();
         if (jmID.length != 8 || jmID.startsWith("jm"))
             return;
-        exec(`python plugins/jm-plugin/jm.py ${jmID}`, { windowsHide: true }, async (error, stdout, stderr) => {
+        exec(`python plugins/jm-plugin/python/jm.py ${jmID}`, { windowsHide: true }, async (error, stdout, stderr) => {
             if (error) {
                 Logger.error(`[jm-plugin] Error: ${error}`);
                 await this.e.reply(`发生严重错误。`, true);
@@ -30,7 +30,7 @@ export class JMPlugin extends Plugin {
             }
             else {
                 try {
-                    const inf = JSON.parse(stdout);
+                    const inf = JSON.parse(stdout.split('\n').at(-1));
                     const msgs = [
                         `标题: ${inf.name}`,
                         `作者: ${inf.author}`,
@@ -40,6 +40,7 @@ export class JMPlugin extends Plugin {
                     await this.e.reply(msg);
                 }
                 catch (e) {
+                    Logger.warn(`[jm-plugin] PyError: ${stdout}`);
                     await this.e.reply(`错误：${e}`, true);
                 }
             }
