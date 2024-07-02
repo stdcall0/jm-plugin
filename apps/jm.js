@@ -1,4 +1,4 @@
-import { Plugin, Common } from '#gc';
+import { Plugin, Common, Logger } from '#gc';
 import { exec } from 'child_process';
 export class JMPlugin extends Plugin {
     constructor() {
@@ -9,7 +9,7 @@ export class JMPlugin extends Plugin {
             priority: '98',
             rule: [
                 {
-                    reg: '^(jm|JM)\d{6}$',
+                    reg: '^(jm|JM)\\d{6}$',
                     fnc: 'jmQuery'
                 }
             ]
@@ -21,11 +21,11 @@ export class JMPlugin extends Plugin {
             return;
         exec(`python plugins/jm-plugin/jm.py ${jmID}`, { windowsHide: true }, async (error, stdout, stderr) => {
             if (error) {
-                console.log(`[jm-plugin] Error: ${error}`);
+                Logger.error(`[jm-plugin] Error: ${error}`);
                 await this.e.reply(`发生严重错误。`, true);
             }
             else if (stderr) {
-                console.log(`[jm-plugin] PyError: ${stderr}`);
+                Logger.warn(`[jm-plugin] PyError: ${stderr}`);
                 await this.e.reply(`错误：${stderr}`, true);
             }
             else {
