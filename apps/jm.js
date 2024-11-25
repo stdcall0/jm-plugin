@@ -9,7 +9,7 @@ export class JMPlugin extends Plugin {
             priority: '98',
             rule: [
                 {
-                    reg: '^(jm|JM)\\d{6}$',
+                    reg: '^(jm|JM)\\d+$',
                     fnc: 'jmQuery'
                 }
             ]
@@ -17,16 +17,16 @@ export class JMPlugin extends Plugin {
     }
     async jmQuery() {
         const jmID = this.e.msg.toLowerCase();
-        if (jmID.length != 8 || !jmID.startsWith("jm"))
+        if (!jmID.startsWith("jm"))
             return;
         exec(`python plugins/jm-plugin/python/jm.py ${jmID}`, { windowsHide: true }, async (error, stdout, stderr) => {
             if (error) {
-                Logger.error(`[jm-plugin] Error: ${error}`);
-                await this.e.reply(`发生严重错误。`, true);
+                Logger.error(`[jm-plugin] Fatal: ${error}`);
+                await this.e.reply(`调用查询库出错。`, true);
             }
             else if (stderr) {
-                Logger.warn(`[jm-plugin] PyError: ${stderr}`);
-                await this.e.reply(`错误：${stderr}`, true);
+                Logger.warn(`[jm-plugin] Error: ${stderr}`);
+                await this.e.reply(`查询失败：${stderr}`, true);
             }
             else {
                 try {
@@ -47,8 +47,8 @@ export class JMPlugin extends Plugin {
                     await this.e.reply(msg);
                 }
                 catch (e) {
-                    Logger.warn(`[jm-plugin] PyError: ${stdout}`);
-                    await this.e.reply(`错误：${e}`, true);
+                    Logger.warn(`[jm-plugin] Error: ${stdout}`);
+                    await this.e.reply(`查询失败：${e}`, true);
                 }
             }
         });

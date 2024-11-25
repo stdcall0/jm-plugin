@@ -53,26 +53,26 @@ import jmcomic as jm
 
 try:
     id = sys.argv[1]
-    assert(re.match(r"^(jm|JM)\d{6}$", id))
+    assert(re.match(r"^(jm|JM)\d+$", id))
 except:
     print("JM ID Invalid", file=sys.stderr)
-    sys.exit(1)
+    sys.exit()
 
 try:
     client = jm.create_option_by_str(CONFIG).new_jm_client()
 except:
     print("Failed to initialize JM client", file=sys.stderr)
-    sys.exit(1)
+    sys.exit()
 
 try:
     data = client.get_album_detail(id)
 except Exception as e:
     print(f"Failed to get album detail\n{e}", file=sys.stderr)
-    sys.exit(2)
+    sys.exit()
 
 try:
     print(json.dumps({"name": data.name, "tags": data.tags, "author": data.author}))
-    sys.exit(0)
+    sys.exit()
 except Exception as e:
     print(f"Failed to read album detail\n{e}", file=sys.stderr)
-    sys.exit(3)
+    sys.exit()
