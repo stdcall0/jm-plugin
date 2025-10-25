@@ -1,3 +1,5 @@
+**This repo is deprecated, new repo: https://github.com/stdcall0/jm-plugin-reborn**
+
 # jm-plugin
 ## jm API integration for Yunzai Bot
 
